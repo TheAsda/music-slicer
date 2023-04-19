@@ -25,6 +25,9 @@
     "jotai": "^2.0.4",
     "music-metadata-browser": "^2.5.10",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-duration-control": "^1.0.0",
+    "react-duration-input": "^1.0.8",
+    "react-number-format": "^5.1.4"
   }
 }

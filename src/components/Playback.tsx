@@ -1,5 +1,5 @@
 import { Box } from '@chakra-ui/react';
-import { Controls } from './Controls';
+import { Controls } from './Controls/Controls';
 import { Timeline } from './Timeline';
 import { Audio } from './Audio';
 import { Title } from './Metadata';
