@@ -1,6 +1,7 @@
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { useCallback, useEffect, useRef } from 'react';
 import {
+  audioAtom,
   currentTimeAtom,
   fileUrlAtom,
   isPlayingAtom,
@@ -10,7 +11,7 @@ import {
 export const Audio = () => {
   const fileUrl = useAtomValue(fileUrlAtom);
 
-  const ref = useRef<HTMLAudioElement>(null);
+  const [audio, setAudio] = useAtom(audioAtom);
 
   const [isPlaying, setIsPlaying] = useAtom(isPlayingAtom);
   const setCurrentTime = useSetAtom(currentTimeAtom);
@@ -18,25 +19,22 @@ export const Audio = () => {
 
   const updateTimeRef = useRef<number>();
   const updateTime = useCallback(() => {
-    const currentTime = ref.current?.currentTime;
-    if (!currentTime) {
+    const currentTime = audio?.currentTime;
+    if (currentTime === undefined) {
       return;
     }
     setCurrentTime(currentTime);
     updateTimeRef.current = requestAnimationFrame(updateTime);
-  }, []);
+  }, [audio]);
 
   useEffect(() => {
     if (isPlaying) {
-      ref.current?.play();
-      updateTimeRef.current = requestAnimationFrame(updateTime);
+      audio?.play();
     } else {
-      ref.current?.pause();
-      if (updateTimeRef.current !== undefined) {
-        cancelAnimationFrame(updateTimeRef.current);
-      }
+      audio?.pause();
     }
-  }, [isPlaying, updateTime]);
+    updateTimeRef.current = requestAnimationFrame(updateTime);
+  }, [audio, isPlaying, updateTime]);
 
   useEffect(() => {
     const playHandler = () => {
@@ -46,26 +44,26 @@ export const Audio = () => {
       setIsPlaying(false);
     };
     const loadHandler = () => {
-      if (!ref.current) {
+      if (!audio) {
         return;
       }
-      const totalTime = ref.current.duration;
+      const totalTime = audio.duration;
       if (totalTime === undefined) {
         return;
       }
       setTotalTime(totalTime);
     };
 
-    ref.current?.addEventListener('play', playHandler);
-    ref.current?.addEventListener('pause', pauseHandler);
-    ref.current?.addEventListener('loadedmetadata', loadHandler);
+    audio?.addEventListener('play', playHandler);
+    audio?.addEventListener('pause', pauseHandler);
+    audio?.addEventListener('loadedmetadata', loadHandler);
 
     return () => {
-      ref.current?.removeEventListener('play', playHandler);
-      ref.current?.removeEventListener('pause', pauseHandler);
-      ref.current?.removeEventListener('loadedmetadata', loadHandler);
+      audio?.removeEventListener('play', playHandler);
+      audio?.removeEventListener('pause', pauseHandler);
+      audio?.removeEventListener('loadedmetadata', loadHandler);
     };
-  }, []);
+  }, [audio]);
 
-  return <audio src={fileUrl} ref={ref} />;
+  return <audio src={fileUrl} ref={(ref) => setAudio(ref)} />;
 };
