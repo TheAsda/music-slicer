@@ -14,7 +14,7 @@
     "@vitejs/plugin-react": "^4.0.0-beta.1",
     "typescript": "^5.0.4",
     "vite": "^4.2.0",
-    "vite-plugin-ngmi-polyfill": "^0.0.2"
+    "vite-plugin-node-stdlib-browser": "^0.2.1"
   },
   "dependencies": {
     "@chakra-ui/react": "^2.5.5",
@@ -28,8 +28,6 @@
     "pastel-color": "^1.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-duration-control": "^1.0.0",
-    "react-duration-input": "^1.0.8",
     "react-number-format": "^5.1.4"
   }
 }
