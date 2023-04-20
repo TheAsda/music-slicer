@@ -1,7 +1,14 @@
-import { MouseEventHandler, useEffect, useRef, useState } from 'react';
+import {
+  MouseEventHandler,
+  TouchEventHandler,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { clamp } from '../../utils/math';
 import { SliderHandle } from './SliderHandle';
 import { SliderLine } from './SliderLine';
+import { getClientX } from '../../utils/event';
 
 export interface SliderSection {
   start: number;
@@ -31,8 +38,8 @@ export const Slider = (props: SliderProps) => {
   const [totalX, setTotalX] = useState(1);
   const [delta, setDelta] = useState(0);
 
-  const startDrag: MouseEventHandler = (e) => {
-    startX.current = e.clientX;
+  const startDrag: MouseEventHandler & TouchEventHandler = (e) => {
+    startX.current = 'clientX' in e ? e.clientX : e.touches[0].clientX;
     startValue.current = value;
     setIsDragging(true);
     onDragStart?.();
@@ -54,8 +61,8 @@ export const Slider = (props: SliderProps) => {
 
     onDrag?.(displayedValue);
 
-    const onMouseMove = (e: MouseEvent) => {
-      const deltaX = e.clientX - startX.current;
+    const onMouseMove = (e: MouseEvent | TouchEvent) => {
+      const deltaX = getClientX(e) - startX.current;
       setDelta((deltaX / totalX) * 100);
     };
 
@@ -66,12 +73,16 @@ export const Slider = (props: SliderProps) => {
     };
 
     document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('touchmove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
+    document.addEventListener('touchend', onMouseUp);
     document.body.style.userSelect = 'none';
 
     return () => {
       document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('touchmove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
+      document.removeEventListener('touchend', onMouseUp);
       document.body.style.userSelect = 'initial';
     };
   }, [isDragging, displayedValue]);
@@ -88,7 +99,7 @@ export const Slider = (props: SliderProps) => {
   }, []);
 
   return (
-    <svg viewBox="0 0 100 5">
+    <svg viewBox="0 0 100 5" overflow="visible">
       <SliderLine ref={lineRef} />
       {section && (
         <SliderLine

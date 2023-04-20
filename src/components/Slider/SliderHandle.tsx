@@ -1,8 +1,8 @@
-import { MouseEventHandler, forwardRef } from 'react';
+import { MouseEventHandler, TouchEventHandler, forwardRef } from 'react';
 
 export interface SliderHandleProps {
   value: number;
-  onDragStart: MouseEventHandler;
+  onDragStart: MouseEventHandler & TouchEventHandler;
 }
 
 export const SliderHandle = forwardRef<SVGCircleElement, SliderHandleProps>(
@@ -22,6 +22,7 @@ export const SliderHandle = forwardRef<SVGCircleElement, SliderHandleProps>(
         r="2"
         ref={ref}
         onMouseDown={onDragStart}
+        onTouchStart={onDragStart}
       />
     );
   }

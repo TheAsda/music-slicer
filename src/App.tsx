@@ -1,4 +1,4 @@
-import { Center, ChakraProvider } from '@chakra-ui/react';
+import { ChakraProvider, Heading, VStack } from '@chakra-ui/react';
 import { useAtomValue } from 'jotai';
 import { fileUrlAtom } from './atoms';
 import { Playback } from './components/Playback';
@@ -12,9 +12,10 @@ export const App = () => {
       {fileUrl ? (
         <Playback />
       ) : (
-        <Center>
+        <VStack>
+          <Heading>Upload audio file</Heading>
           <UploadFileButton />
-        </Center>
+        </VStack>
       )}
     </ChakraProvider>
   );

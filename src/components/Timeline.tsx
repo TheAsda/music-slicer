@@ -49,7 +49,7 @@ export const Timeline = () => {
   }, [enabledSection, currentTime]);
 
   return (
-    <Grid gridTemplateRows="auto auto" gridTemplateColumns="100%" width="200px">
+    <Grid gridTemplateRows="auto auto" gridTemplateColumns="100%" width="100%" padding="3">
       <Slider
         value={(currentTime / Math.max(totalTime, 1)) * 100}
         onDragStart={() => {
