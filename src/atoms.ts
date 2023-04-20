@@ -11,6 +11,8 @@ export interface Section {
   start: number;
   end: number;
   name: string;
+  color: string;
+  enabled: boolean;
 }
 
 export const sectionsAtom = atom<Section[]>([]);

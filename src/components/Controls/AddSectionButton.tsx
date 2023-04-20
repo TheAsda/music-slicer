@@ -22,7 +22,7 @@ export const AddSectionButton = () => {
   };
 
   return (
-    <Popover isOpen={isOpen} onClose={onClose} onOpen={onOpen}>
+    <Popover isOpen={isOpen} onClose={onClose} onOpen={onOpen} isLazy>
       <PopoverTrigger>
         <Button>Add</Button>
       </PopoverTrigger>

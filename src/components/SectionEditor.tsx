@@ -2,6 +2,8 @@ import { Button, Flex, Grid, Input, Text, useToast } from '@chakra-ui/react';
 import { useState } from 'react';
 import { DurationInput } from './DurationInput';
 import { Section } from '../atoms';
+// @ts-ignore
+import { getPastelColor } from 'pastel-color';
 
 export interface SectionEditorProps {
   maxDuration: number;
@@ -37,6 +39,8 @@ export const SectionEditor = (props: SectionEditorProps) => {
       start,
       end,
       name,
+      color: getPastelColor(name).hex,
+      enabled: true,
     });
   };
 

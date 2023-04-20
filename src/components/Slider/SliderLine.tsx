@@ -1,14 +1,37 @@
-import { forwardRef } from 'react';
+import { Tooltip } from '@chakra-ui/react';
+import { ComponentPropsWithRef, forwardRef } from 'react';
 
-export const SliderLine = forwardRef<SVGPathElement>((_, ref) => {
-  return (
-    <path
-      style={{
-        fill: '#434543',
-        fillOpacity: '.228522',
-      }}
-      d="M.5 1.775h99v1.449H.5z"
-      ref={ref}
-    />
-  );
-});
+export interface SliderLineProps extends ComponentPropsWithRef<'path'> {
+  start?: number;
+  end?: number;
+  color?: string;
+  label?: string;
+}
+
+export const SliderLine = forwardRef<SVGPathElement, SliderLineProps>(
+  (props, ref) => {
+    const {
+      start = 0.5,
+      end = 99,
+      color = '#434543',
+      label,
+      ...pathProps
+    } = props;
+
+    const width = end - start;
+
+    return (
+      <Tooltip label={label}>
+        <path
+          style={{
+            fill: color,
+          }}
+          d={`M${start} 1.775h${width}v1.449H${start}z`}
+          cx={start}
+          {...pathProps}
+          ref={ref}
+        />
+      </Tooltip>
+    );
+  }
+);
