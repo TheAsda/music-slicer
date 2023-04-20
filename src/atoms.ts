@@ -10,7 +10,7 @@ export const audioAtom = atom<HTMLAudioElement | null>(null);
 export interface Section {
   start: number;
   end: number;
-  title: string;
+  name: string;
 }
 
 export const sectionsAtom = atom<Section[]>([]);
