@@ -4,6 +4,7 @@ import { DurationInput } from './DurationInput';
 import { Section } from '../atoms';
 // @ts-ignore
 import { getPastelColor } from 'pastel-color';
+import { nanoid } from 'nanoid';
 
 export interface SectionEditorProps {
   maxDuration: number;
@@ -39,8 +40,8 @@ export const SectionEditor = (props: SectionEditorProps) => {
       start,
       end,
       name,
-      color: getPastelColor(name).hex,
-      enabled: true,
+      color: initial?.color ?? getPastelColor(name).hex,
+      id: initial?.id ?? nanoid(),
     });
   };
 

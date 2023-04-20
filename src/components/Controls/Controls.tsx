@@ -1,11 +1,10 @@
-import { Button, Flex } from '@chakra-ui/react';
-import { PlayPauseButton } from './PlayPauseButton';
+import { Flex } from '@chakra-ui/react';
 import { AddSectionButton } from './AddSectionButton';
+import { PlayPauseButton } from './PlayPauseButton';
 
 export const Controls = () => {
   return (
     <Flex>
-      <Button>Repeat</Button>
       <PlayPauseButton />
       <AddSectionButton />
     </Flex>

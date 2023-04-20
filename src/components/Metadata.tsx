@@ -5,9 +5,10 @@ import { Text } from '@chakra-ui/react';
 export const Title = () => {
   const metadata = useAtomValue(metadataAtom);
 
-  return (
-    <Text>
-      {metadata.title ?? 'Unknown'} - {metadata.artist ?? 'Unknown artist'}
-    </Text>
-  );
+  const title =
+    !metadata.title && !metadata.artist
+      ? metadata.fileName
+      : `${metadata.title} - ${metadata.artist}`;
+
+  return <Text>{title}</Text>;
 };

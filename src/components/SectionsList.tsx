@@ -1,32 +1,18 @@
-import { Checkbox, HStack, Stack, Text } from '@chakra-ui/react';
-import { useAtom } from 'jotai';
+import { Stack } from '@chakra-ui/react';
+import { useAtomValue } from 'jotai';
+import { splitAtom } from 'jotai/utils';
 import { sectionsAtom } from '../atoms';
-import { formatTime } from '../utils/time';
+import { SectionInfo } from './SectionInfo';
+
+const sectionAtomsAtom = splitAtom(sectionsAtom);
 
 export const SectionsList = () => {
-  const [sections, setSections] = useAtom(sectionsAtom);
-
-  const toggleEnabled = (index: number) => {
-    setSections((s) =>
-      s.map((section, i) =>
-        i === index ? { ...section, enabled: !section.enabled } : section
-      )
-    );
-  };
+  const sectionAtoms = useAtomValue(sectionAtomsAtom);
 
   return (
     <Stack>
-      {sections.map((section, i) => (
-        <HStack key={i}>
-          <Checkbox
-            isChecked={section.enabled}
-            onChange={() => toggleEnabled(i)}
-          />
-          <Text>{`${formatTime(section.start)}-${formatTime(
-            section.end
-          )}`}</Text>
-          <Text>{section.name}</Text>
-        </HStack>
+      {sectionAtoms.map((atom) => (
+        <SectionInfo atom={atom} key={atom.toString()} />
       ))}
     </Stack>
   );

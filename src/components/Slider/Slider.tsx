@@ -1,8 +1,13 @@
 import { MouseEventHandler, useEffect, useRef, useState } from 'react';
+import { clamp } from '../../utils/math';
 import { SliderHandle } from './SliderHandle';
 import { SliderLine } from './SliderLine';
-import { clamp } from '../../utils/clamp';
-import { Section } from '../../atoms';
+
+export interface SliderSection {
+  start: number;
+  end: number;
+  color: string;
+}
 
 export interface SliderProps {
   /** Value from 0 to 100 */
@@ -10,11 +15,11 @@ export interface SliderProps {
   onDragStart?: () => void;
   onDragEnd?: (value: number) => void;
   onDrag?: (value: number) => void;
-  sections: Section[];
+  section?: SliderSection;
 }
 
 export const Slider = (props: SliderProps) => {
-  const { value, onDragStart, onDragEnd, onDrag, sections } = props;
+  const { value, onDragStart, onDragEnd, onDrag, section } = props;
 
   const circleRef = useRef<SVGCircleElement>(null);
   const lineRef = useRef<SVGPathElement>(null);
@@ -85,17 +90,12 @@ export const Slider = (props: SliderProps) => {
   return (
     <svg viewBox="0 0 100 5">
       <SliderLine ref={lineRef} />
-      {sections.map(
-        (section, i) =>
-          section.enabled && (
-            <SliderLine
-              key={i}
-              start={section.start}
-              end={section.end}
-              color={section.color}
-              label={section.name}
-            />
-          )
+      {section && (
+        <SliderLine
+          start={section.start}
+          end={section.end}
+          color={section.color}
+        />
       )}
       <SliderHandle
         ref={circleRef}

@@ -1,4 +1,4 @@
-import { clamp } from '../utils/clamp';
+import { clamp } from '../utils/math';
 
 export interface UseDurationProps {
   value: number;

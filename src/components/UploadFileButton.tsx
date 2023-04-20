@@ -23,6 +23,8 @@ export const UploadFileButton = () => {
     setMetadata({
       artist: metadata.common.artist,
       title: metadata.common.title,
+      fileName: file.name,
+      id: `${file.name}-${file.size}`,
     });
 
     const url = URL.createObjectURL(file);
