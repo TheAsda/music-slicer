@@ -24,9 +24,9 @@ export const Timeline = () => {
 
   const rewind = (time: number) => {
     if (audio) {
-      audio.currentTime = (time / 100) * totalTime;
+      audio.currentTime = time;
+      setCurrentTime(audio.currentTime);
     }
-    setCurrentTime(time);
   };
 
   const enabledSection = useMemo(
@@ -38,6 +38,8 @@ export const Timeline = () => {
     if (!enabledSection) {
       return;
     }
+    console.log(currentTime, enabledSection.start, enabledSection.end);
+
     if (currentTime < enabledSection.start) {
       rewind(enabledSection.start);
       return;
@@ -49,7 +51,12 @@ export const Timeline = () => {
   }, [enabledSection, currentTime]);
 
   return (
-    <Grid gridTemplateRows="auto auto" gridTemplateColumns="100%" width="100%" padding="3">
+    <Grid
+      gridTemplateRows="auto auto"
+      gridTemplateColumns="100%"
+      width="100%"
+      padding="3"
+    >
       <Slider
         value={(currentTime / Math.max(totalTime, 1)) * 100}
         onDragStart={() => {
@@ -57,10 +64,10 @@ export const Timeline = () => {
           setSliderTime(currentTime);
         }}
         onDrag={(value) => {
-          setSliderTime(value);
+          setSliderTime((value / 100) * totalTime);
         }}
         onDragEnd={(value) => {
-          rewind(value);
+          rewind((value / 100) * totalTime);
           setIsDragging(false);
         }}
         section={
