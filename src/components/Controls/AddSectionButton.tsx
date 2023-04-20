@@ -4,6 +4,7 @@ import {
   PopoverBody,
   PopoverContent,
   PopoverTrigger,
+  useDisclosure,
 } from '@chakra-ui/react';
 import { SectionEditor } from '../SectionEditor';
 import { useAtomValue, useSetAtom } from 'jotai';
@@ -13,12 +14,15 @@ export const AddSectionButton = () => {
   const totalTime = useAtomValue(totalTimeAtom);
   const setSections = useSetAtom(sectionsAtom);
 
+  const { isOpen, onClose, onOpen } = useDisclosure();
+
   const addSection = (section: Section) => {
     setSections((s) => [...s, section]);
+    onClose();
   };
 
   return (
-    <Popover>
+    <Popover isOpen={isOpen} onClose={onClose} onOpen={onOpen}>
       <PopoverTrigger>
         <Button>Add</Button>
       </PopoverTrigger>
